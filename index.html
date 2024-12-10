@@ -15,25 +15,61 @@
         <section id="input-section">
             <h2>Input Product Data</h2>
             <form id="product-form">
-                <label for="spreadsheet-upload">Upload Spreadsheet:</label>
-                <input type="file" id="spreadsheet-upload" name="spreadsheet-upload" accept=".xlsx,.xls"><br><br>
-                <label for="product-name">Product Name:</label>
-                <input type="text" id="product-name" name="product-name" required><br><br>
+                <label for="spreadsheet-upload">
+                    Upload Spreadsheet:
+                    <div class="tooltip">?
+                        <span class="tooltiptext">Upload an Excel spreadsheet containing your product data</span>
+                    </div>
+                </label>
+                <input type="file" id="spreadsheet-upload" name="spreadsheet-upload" accept=".xlsx,.xls">
 
-                <label for="raw-material-cost">Raw Material Cost ($):</label>
-                <input type="number" id="raw-material-cost" name="raw-material-cost" step="0.01" required><br><br>
+                <label for="product-name">
+                    Product Name:
+                    <div class="tooltip">?
+                        <span class="tooltiptext">Enter the name of your product</span>
+                    </div>
+                </label>
+                <input type="text" id="product-name" name="product-name" required>
 
-                <label for="labor-cost">Labor Cost ($):</label>
-                <input type="number" id="labor-cost" name="labor-cost" step="0.01" required><br><br>
+                <label for="raw-material-cost">
+                    Raw Material Cost (R):
+                    <div class="tooltip">?
+                        <span class="tooltiptext">Enter the cost of raw materials per unit</span>
+                    </div>
+                </label>
+                <input type="number" id="raw-material-cost" name="raw-material-cost" step="0.01" required>
 
-                <label for="other-costs">Other Costs ($):</label>
-                <input type="number" id="other-costs" name="other-costs" step="0.01"><br><br>
+                <label for="labor-cost">
+                    Labor Cost (R):
+                    <div class="tooltip">?
+                        <span class="tooltiptext">Enter the labor cost per unit</span>
+                    </div>
+                </label>
+                <input type="number" id="labor-cost" name="labor-cost" step="0.01" required>
 
-                <label for="selling-price">Selling Price ($):</label>
-                <input type="number" id="selling-price" name="selling-price" step="0.01" required><br><br>
+                <label for="other-costs">
+                    Other Costs (R):
+                    <div class="tooltip">?
+                        <span class="tooltiptext">Enter any additional costs per unit (optional)</span>
+                    </div>
+                </label>
+                <input type="number" id="other-costs" name="other-costs" step="0.01">
 
-                <label for="units-sold">Units Sold (Estimated or Actual):</label>
-                <input type="number" id="units-sold" name="units-sold" required><br><br>
+                <label for="selling-price">
+                    Selling Price (R):
+                    <div class="tooltip">?
+                        <span class="tooltiptext">Enter the selling price per unit</span>
+                    </div>
+                </label>
+                <input type="number" id="selling-price" name="selling-price" step="0.01" required>
+
+                <label for="units-sold">
+                    Units Sold (Estimated or Actual):
+                    <div class="tooltip">?
+                        <span class="tooltiptext">Enter the number of units sold or estimated to be sold</span>
+                    </div>
+                </label>
+                <input type="number" id="units-sold" name="units-sold" required>
 
                 <button type="button" id="calculate-button">Generate Insights</button>
             </form>
@@ -41,8 +77,12 @@
 
         <section id="insights-section">
             <h2>Insights</h2>
-            <div id="insights-results">
-                </div>
+            <div class="insight-div" id="insights-results">
+                <p>Your insights will appear here after you generate them.</p>
+            </div>
+            <div class="insight-div" id="further-insight">
+
+            </div>
         </section>
     </main>
 
@@ -55,3 +95,4 @@
     <script src="js/index.js"></script>
 </body>
 </html>
+
