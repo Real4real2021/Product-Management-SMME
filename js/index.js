@@ -58,8 +58,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <li>Determine if the product can be salvaged or if it should be discontinued.</li>
             </ul>
         </ul>
-        `;
 
+        <button "button" class="product__management"><a href="totalCostPerUnitGreaterThanProfitPerUnit.html">Proceed to Product Management</a></button>
+
+        `;
         const totalCostPerUnitLessThanProfitPerUnit = `
         <h3>Total Cost Per Unit Less Than Profit Per Unit</h3>
         <h4>Implication:</h4>
@@ -97,6 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <li>If fixed costs are high, increasing sales volume can help leverage economies of scale and improve profitability even with a low contribution margin per unit.</li>
             </ul>
         </ul>
+
         `
         const highRevenueLowProfit = `
         <h3>High Revenue, Low Profit</h3>
@@ -156,6 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </ul>
         </ul>
         `
+        
         if (totalCost > totalProfit){
             futherInsight.innerHTML += totalCostPerUnitGreaterThanProfitPerUnit;
         }else if (totalCost < totalProfit){

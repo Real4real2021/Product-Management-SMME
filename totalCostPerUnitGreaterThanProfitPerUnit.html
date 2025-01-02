@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scrum Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/scrum.css">
+</head>
+<body>
+
+<div class="container">
+    <!-- <nav>
+        <a href="scrum.html">Home</a>
+        <a href="scrum-backlog.html">Product Backlog</a>
+        <a href="sprint-backlog.html">Sprint Backlog</a>
+        <a href="team-members.html">Team Members</a>
+    </nav> -->
+  <h1>Scrum Dashboard</h1>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">Sprint Overview</div>
+        <div class="card-body">
+          <h2>Sprint Goal: Reduce Costs</h2>
+          <canvas class="burndown-chart" id="burndownChart"></canvas>
+          <p>Remaining Days: <span id="remainingDays">5</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">Quick Links</div>
+        <div class="card-body">
+          <ul class="list-group">
+            <li class="list-group-item" onclick="showProductBacklog()"><a href="#"><i class="fas fa-clipboard-list"></i> Product Backlog</a></li>
+            <li class="list-group-item" onclick="showSprintBacklog()"><a href="#"><i class="fas fa-tasks"></i> Sprint Backlog</a></li>`
+            <li class="list-group-item" onclick="showTeamMembers()"><a href="#"><i class="fas fa-users"></i> Team Members</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">Recent Activity</div>
+        <div class="card-body">
+          <ul class="list-group" id="activityFeed">
+            <!-- Activity feed items will be added here -->
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">Key Metrics</div>
+        <div class="card-body">
+          <p>Velocity: <span id="velocity">15</span></p>
+          <p>Lead Time: <span id="leadTime">7 days</span></p>
+          <!-- Add more metrics as needed -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="productBacklogModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Product Backlog</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Priority</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="productBacklogItems">
+              <!-- Product Backlog items will be added here -->
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="sprintBacklogModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Sprint Backlog</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Task</th>
+                <th>Assignee</th>
+                <th>Status</th>
+                <th>Estimated Time</th>
+              </tr>
+            </thead>
+            <tbody id="sprintBacklogItems">
+              <!-- Sprint Backlog items will be added here -->
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="teamMembersModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Team Members</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Contact</th>
+              </tr>
+            </thead>
+            <tbody id="teamMembersList">
+              <!-- Team members will be added here -->
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // Sample data for burndown chart (replace with actual data)
+const burndownData = {
+    labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
+    datasets: [{
+      label: 'Ideal Burndown',
+      data: [100, 80, 60, 40, 20],
+      borderColor: 'blue',
+      fill: false
+    }, {
+      label: 'Actual Burndown',
+      data: [100, 90, 70, 50, 30],
+      borderColor: 'red',
+      fill: false
+    }],
+  };
+
+  // Create burndown chart
+  const ctx = document.getElementById('burndownChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: burndownData
+  });
+
+  // Sample activity feed items (replace with actual data)
+  const activityFeed = document.getElementById('activityFeed');
+  const activities = [
+    'John Doe updated task "Reduce Costs"',
+    'Jane Smith completed task "Design user interface"',
+    'New sprint started: Sprint 3'
+  ];
+  activities.forEach(activity => {
+    const li = document.createElement('li');
+    li.classList.add('list-group-item');
+    li.textContent = activity;
+    activityFeed.appendChild(li);
+  });
+
+  const productBacklogItems = [
+    { id: 1, title: 'User authentication', description: 'Implement user login and registration', priority: 'High', status: 'To Do' },
+    { id: 2, title: 'Product listing', description: 'Display list of products with filters', priority: 'Medium', status: 'In Progress' },
+    { id: 3, title: 'Shopping cart', description: 'Allow users to add items to cart', priority: 'High', status: 'Done' }
+  ];
+
+  function showProductBacklog() {
+    const productBacklogTable = document.getElementById('productBacklogItems');
+    productBacklogTable.innerHTML = ''; // Clear existing items
+
+    productBacklogItems.forEach(item => {
+      const row = productBacklogTable.insertRow();
+      row.insertCell().textContent = item.id;
+      row.insertCell().textContent = item.title;
+      row.insertCell().textContent = item.description;
+      row.insertCell().textContent = item.priority;
+      row.insertCell().textContent = item.status;
+    });
+
+    $('#productBacklogModal').modal('show');
+  }
+
+   // Sample sprint backlog items (replace with actual data)
+   const sprintBacklogItems = [
+    { id: 1, task: 'Reduce Costs', assignee: 'John Doe', status: 'In Progress', estimatedTime: '8 hours' },
+    { id: 2, task: 'Increase Prices', assignee: 'Jane Smith', status: 'To Do', estimatedTime: '4 hours' },
+    { id: 3, task: 'Re-evaluate Product Viability', assignee: 'Peter Jones', status: 'Done', estimatedTime: '2 hours' }
+  ];
+
+  function showSprintBacklog() {
+    const sprintBacklogTable = document.getElementById('sprintBacklogItems');
+    sprintBacklogTable.innerHTML = ''; // Clear existing items
+
+    sprintBacklogItems.forEach(item => {
+      const row = sprintBacklogTable.insertRow();
+      row.insertCell().textContent = item.id;
+      row.insertCell().textContent = item.task;
+      row.insertCell().textContent = item.assignee;
+      row.insertCell().textContent = item.status;
+      row.insertCell().textContent = item.estimatedTime;
+    });
+
+    $('#sprintBacklogModal').modal('show');
+  }
+
+  // Sample team members data (replace with actual data)
+  const teamMembers = [
+    { name: 'John Doe', role: 'Developer', contact: 'john.doe@example.com' },
+    { name: 'Jane Smith', role: 'Designer', contact: 'jane.smith@example.com' },
+    { name: 'Peter Jones', role: 'Tester', contact: 'peter.jones@example.com' }
+  ];
+
+  function showTeamMembers() {
+    const teamMembersTable = document.getElementById('teamMembersList');
+    teamMembersTable.innerHTML = ''; // Clear existing items
+
+    teamMembers.forEach(member => {
+      const row = teamMembersTable.insertRow();
+      row.insertCell().textContent = member.name;
+      row.insertCell().textContent = member.role;
+      row.insertCell().textContent = member.contact;
+    });
+
+    $('#teamMembersModal').modal('show');
+  }
+</script>
+
+</body>
+</html>
