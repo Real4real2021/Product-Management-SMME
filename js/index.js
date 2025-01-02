@@ -99,7 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <li>If fixed costs are high, increasing sales volume can help leverage economies of scale and improve profitability even with a low contribution margin per unit.</li>
             </ul>
         </ul>
-
         `
         const highRevenueLowProfit = `
         <h3>High Revenue, Low Profit</h3>

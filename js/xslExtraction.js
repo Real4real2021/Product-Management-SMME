@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let insightsHTML = '';
 
         for (const row of jsonData) {
+            console.log(row)
             const productName = row['Product Name'];
             const rawMaterialCost = parseFloat(row['Raw Material Cost']);
             const laborCost = parseFloat(row['Direct Labor Cost']);
